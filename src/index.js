@@ -78,7 +78,7 @@ export default class Compressor {
       });
     } else {
       const reader = new FileReader();
-      console.log('orientation and exif');
+      console.log(mimeType);
 
       this.reader = reader;
       reader.onload = ({ target }) => {
