@@ -5,7 +5,7 @@
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2023-02-21T12:20:38.374Z
+ * Date: 2023-02-21T12:39:14.979Z
  */
 
 function _extends() {
@@ -634,9 +634,7 @@ class Compressor {
       options.checkOrientation = false;
       options.retainExif = false;
     }
-    if (URL && (!options.checkOrientation && !options.retainExif
-    // if any of checkOrientation or retainExif are selection but type is not jpeg
-    || (options.checkOrientation || options.retainExif) && mimeType !== 'image/jpeg')) {
+    if (URL && (!options.checkOrientation && !options.retainExif || mimeType !== 'image/jpeg')) {
       this.load({
         url: URL.createObjectURL(file)
       });
