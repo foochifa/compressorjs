@@ -5,7 +5,7 @@
  * Copyright 2018-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2023-02-21T10:38:41.843Z
+ * Date: 2023-02-21T12:20:38.374Z
  */
 
 (function (global, factory) {
@@ -640,15 +640,15 @@
         options.checkOrientation = false;
         options.retainExif = false;
       }
-      if (URL && !options.checkOrientation && !options.retainExif) {
+      if (URL && (!options.checkOrientation && !options.retainExif
+      // if any of checkOrientation or retainExif are selection but type is not jpeg
+      || (options.checkOrientation || options.retainExif) && mimeType !== 'image/jpeg')) {
         this.load({
           url: URL.createObjectURL(file)
         });
       } else {
         const reader = new FileReader();
-        const checkOrientation = options.checkOrientation && mimeType === 'image/jpeg';
-        const retainExif = options.retainExif && mimeType === 'image/jpeg';
-        console.log(retainExif);
+        console.log(mimeType);
         this.reader = reader;
         reader.onload = _ref => {
           let {
@@ -658,7 +658,7 @@
             result
           } = target;
           const data = {};
-          if (checkOrientation) {
+          if (options.checkOrientation) {
             // Reset the orientation value to its default value 1
             // as some iOS browsers will render image with its orientation
             const orientation = resetAndGetOrientation(result);
@@ -671,12 +671,10 @@
             } else {
               data.url = URL.createObjectURL(file);
             }
-          } else if (retainExif) {
-            data.url = URL.createObjectURL(file);
           } else {
-            data.url = result;
+            data.url = URL.createObjectURL(file);
           }
-          if (retainExif) {
+          if (options.retainExif) {
             this.exif = getExif(result);
           }
           this.load(data);
@@ -690,11 +688,7 @@
         reader.onloadend = () => {
           this.reader = null;
         };
-        if (checkOrientation || retainExif) {
-          reader.readAsArrayBuffer(file);
-        } else {
-          reader.readAsDataURL(file);
-        }
+        reader.readAsArrayBuffer(file);
       }
     }
     load(data) {
