@@ -70,9 +70,7 @@ export default class Compressor {
       options.retainExif = false;
     }
 
-    if (URL && ((!options.checkOrientation && !options.retainExif)
-      // if any of checkOrientation or retainExif are selection but type is not jpeg
-      || ((options.checkOrientation || options.retainExif) && mimeType !== 'image/jpeg'))) {
+    if (URL && ((!options.checkOrientation && !options.retainExif) || mimeType !== 'image/jpeg')) {
       this.load({
         url: URL.createObjectURL(file),
       });
