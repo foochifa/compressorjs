@@ -100,10 +100,8 @@ export default class Compressor {
           } else {
             data.url = URL.createObjectURL(file);
           }
-        } else if (retainExif) {
-          data.url = URL.createObjectURL(file);
         } else {
-          data.url = result;
+          data.url = URL.createObjectURL(file);
         }
 
         if (retainExif) {
